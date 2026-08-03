@@ -1,0 +1,36 @@
+name: Deploy to DigitalOcean Droplet
+
+on:
+  push:
+    branches:
+      - main  # Change this to 'master' if your default branch uses that name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Droplet via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            # Navigate to your project directory (Create it if it doesn't exist)
+            mkdir -p ~/my-python-app
+            cd ~/my-python-app
+            
+            # Initialize git repository if not already cloned, otherwise pull changes
+            if [ ! -d ".git" ]; then
+              git clone https://github.com{{ github.repository }}.git .
+            else
+              git pull origin main
+            fi
+            
+            # Rebuild and restart the container in detached mode
+            docker compose down
+            docker compose up --build -d
