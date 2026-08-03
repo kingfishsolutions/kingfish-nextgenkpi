@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "80:8000"
+    restart: always
+    environment:
+      - DB_HOST=db-mysql-hiperformance-do-user-38057622-0.a.db.ondigitalocean.com
+      - DB_PORT=25060
+      - DB_USER=kingfishadmin
+      - DB_PASSWORD=AVNS_hB3BHLAEKeky4V_F9Na
+      - DB_NAME=defaultdb
+      - DB_SSL_MODE=REQUIRED
