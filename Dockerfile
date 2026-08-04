@@ -19,4 +19,5 @@ COPY . .
 EXPOSE 8000
 
 # Start the application using a production WSGI server (Gunicorn)
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+## MC 4/8/26 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+CMD ["python", "app.py"]
